@@ -92,35 +92,6 @@
             color: #6c757d;
             border: 1px dashed #adb5bd;
         }
-
-  .subcategory-btn[title]:hover::after {
-    content: attr(title);
-    position: fixed; /* Меняем на fixed чтобы была поверх всего */
-    top: 50%; /* По центру экрана */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    white-space: nowrap;
-    z-index: 10000; /* Очень высокий z-index */
-    border: 2px solid #fff;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-}
-
-/* Добавляем красивую стрелочку */
-.subcategory-btn[title]:hover::before {
-    content: '';
-    position: fixed;
-    top: calc(50% - 40px);
-    left: 50%;
-    transform: translateX(-50%);
-    border: 10px solid transparent;
-    border-bottom-color: rgba(0, 0, 0, 0.9);
-    z-index: 10001;
-}
         
         /* Витрина подарков */
         .gift-showcase {
@@ -317,6 +288,28 @@
             margin-top: 10px;
             font-weight: bold;
         }
+
+        /* Подсказка поверх всего */
+        .seasonal-tooltip {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10000;
+            border: 3px solid #fff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            display: none;
+        }
+
+        .seasonal-tooltip.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -343,7 +336,7 @@
             <button class="subcategory-btn" onclick="showSubcategory('easter')">Пасха</button>
         </div>
         
-        <!-- Витрины по категориям -->
+      <!-- Витрины по категориям -->
         
         <!-- Флора и фауна - 30 подарков -->
         <div id="flora" class="gift-showcase active">
@@ -384,7 +377,7 @@
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold5.jpg')"><div class="glass-effect"></div></div>
         </div>
         
-       <!-- Сезонные подкатегории -->
+        <!-- Сезонные подкатегории -->
         <div id="newyear" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для нового года -->
             <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/newyear1.jpg')"><div class="glass-effect"></div></div>
@@ -662,6 +655,26 @@
     <script>
         let selectedGiftUrl = '';
         
+        // Функции для подсказки
+        function showSeasonalTooltip(text) {
+            let tooltip = document.getElementById('seasonalTooltip');
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.id = 'seasonalTooltip';
+                tooltip.className = 'seasonal-tooltip';
+                document.body.appendChild(tooltip);
+            }
+            tooltip.textContent = text;
+            tooltip.classList.add('show');
+        }
+
+        function hideSeasonalTooltip() {
+            const tooltip = document.getElementById('seasonalTooltip');
+            if (tooltip) {
+                tooltip.classList.remove('show');
+            }
+        }
+        
         function showCategory(categoryId) {
             // Скрываем все витрины
             document.querySelectorAll('.gift-showcase').forEach(showcase => {
@@ -697,10 +710,10 @@
             const day = today.getDate();
             
             const seasonalDates = {
-                'newyear': {available: (month === 12 && day >= 15) || (month === 1 && day <= 10), text: '15 дек - 10 янв'},
-                'valentine': {available: month === 2 && day >= 7 && day <= 17, text: '7-17 фев'},
-                'easter': {available: month === 4, text: '1-30 апр'},
-                'halloween': {available: month === 10 && day >= 25, text: '25-31 окт'},
+                'newyear': {available: (month === 12 && day >= 15) || (month === 1 && day <= 10), text: 'Доступно: 15 декабря - 10 января'},
+                'valentine': {available: month === 2 && day >= 7 && day <= 17, text: 'Доступно: 7-17 февраля'},
+                'easter': {available: month === 4, text: 'Доступно: 1-30 апреля'},
+                'halloween': {available: month === 10 && day >= 25, text: 'Доступно: 25-31 октября'},
                 'birthday': {available: true, text: 'Всегда доступно'}
             };
             
@@ -711,10 +724,14 @@
                 
                 if (!categoryInfo.available) {
                     btn.classList.add('unavailable');
-                    btn.title = `Доступно: ${categoryInfo.text}`;
+                    // Убираем title и добавляем обработчики событий
+                    btn.removeAttribute('title');
+                    btn.onmouseenter = () => showSeasonalTooltip(categoryInfo.text);
+                    btn.onmouseleave = hideSeasonalTooltip;
                 } else {
                     btn.classList.remove('unavailable');
-                    btn.title = '';
+                    btn.onmouseenter = null;
+                    btn.onmouseleave = null;
                 }
             });
         }
@@ -826,4 +843,3 @@
     </script>
 </body>
 </html>
-
