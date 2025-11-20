@@ -78,12 +78,49 @@
             font-size: 14px;
             color: #495057;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .subcategory-btn:hover, .subcategory-btn.active {
             background: linear-gradient(135deg, #5a67d8 0%, #4c51bf 100%);
             color: white;
         }
+
+        .subcategory-btn.unavailable {
+            opacity: 0.7;
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            color: #6c757d;
+            border: 1px dashed #adb5bd;
+        }
+
+   .subcategory-btn[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -35px; /* Увеличил отступ */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 6px 12px; /* Увеличил padding */
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    border: 1px solid #555;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Добавляем стрелочку к подсказке */
+.subcategory-btn[title]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: -25px; /* Позиция стрелочки */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: #333;
+    z-index: 1001;
+}
         
         /* Витрина подарков */
         .gift-showcase {
@@ -106,6 +143,12 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 14px;
         }
         
         .gift-image {
@@ -341,7 +384,7 @@
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold5.jpg')"><div class="glass-effect"></div></div>
         </div>
         
-        <!-- Сезонные подкатегории -->
+       <!-- Сезонные подкатегории -->
         <div id="newyear" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для нового года -->
             <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/newyear1.jpg')"><div class="glass-effect"></div></div>
@@ -641,14 +684,81 @@
             const subcategories = document.getElementById('seasonalSubcategories');
             if (categoryId === 'seasonal') {
                 subcategories.classList.add('active');
-                // Показываем первую подкатегорию
-                showSubcategory('newyear');
+                checkSeasonalAvailability();
+                showFirstAvailableSubcategory();
             } else {
                 subcategories.classList.remove('active');
             }
         }
 
+        function checkSeasonalAvailability() {
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            
+            const seasonalDates = {
+                'newyear': {available: (month === 12 && day >= 15) || (month === 1 && day <= 10), text: '15 дек - 10 янв'},
+                'valentine': {available: month === 2 && day >= 7 && day <= 17, text: '7-17 фев'},
+                'easter': {available: month === 4, text: '1-30 апр'},
+                'halloween': {available: month === 10 && day >= 25, text: '25-31 окт'},
+                'birthday': {available: true, text: 'Всегда доступно'}
+            };
+            
+            // Обновляем кнопки подкатегорий
+            document.querySelectorAll('.subcategory-btn').forEach(btn => {
+                const category = btn.getAttribute('onclick').match(/showSubcategory\('(\w+)'\)/)[1];
+                const categoryInfo = seasonalDates[category];
+                
+                if (!categoryInfo.available) {
+                    btn.classList.add('unavailable');
+                    btn.title = `Доступно: ${categoryInfo.text}`;
+                } else {
+                    btn.classList.remove('unavailable');
+                    btn.title = '';
+                }
+            });
+        }
+
+        function showFirstAvailableSubcategory() {
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            
+            const availableCategories = [
+                {id: 'birthday', always: true},
+                {id: 'newyear', condition: (month === 12 && day >= 15) || (month === 1 && day <= 10)},
+                {id: 'valentine', condition: month === 2 && day >= 7 && day <= 17},
+                {id: 'easter', condition: month === 4},
+                {id: 'halloween', condition: month === 10 && day >= 25}
+            ];
+            
+            for (let cat of availableCategories) {
+                if (cat.always || cat.condition) {
+                    showSubcategory(cat.id);
+                    break;
+                }
+            }
+        }
+
         function showSubcategory(subcategoryId) {
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            
+            const seasonalDates = {
+                'newyear': (month === 12 && day >= 15) || (month === 1 && day <= 10),
+                'valentine': month === 2 && day >= 7 && day <= 17,
+                'easter': month === 4,
+                'halloween': month === 10 && day >= 25,
+                'birthday': true
+            };
+            
+            // Проверяем доступность
+            if (!seasonalDates[subcategoryId]) {
+                alert('Эта категория временно недоступна. Проверьте даты доступности в подсказках.');
+                return;
+            }
+            
             // Скрываем все сезонные витрины
             document.querySelectorAll('.seasonal-showcase').forEach(showcase => {
                 showcase.classList.remove('active');
@@ -679,24 +789,24 @@
             updateCode();
         }
         
-function updateCode() {
-    const recipient = document.getElementById('recipient').value;
-    const message = document.getElementById('message').value;
-    const codeElement = document.getElementById('generatedCode');
-    
-    if (!selectedGiftUrl) {
-        codeElement.textContent = 'Выберите подарок из витрины';
-        return;
-    }
-    
-    let code = `[code]\n`;  // Убрал "ЗАЯВКА НА ПОДАРОК"
-    code += `[img]${selectedGiftUrl}[/img]\n\n`;
-    code += `Для: ${recipient || '[введите ссылку на получателя]'}\n`;
-    code += `Текст: ${message || '[введите ваше пожелание]'}\n\n`;
-    code += `[/code]`;
-    
-    codeElement.textContent = code;
-}
+        function updateCode() {
+            const recipient = document.getElementById('recipient').value;
+            const message = document.getElementById('message').value;
+            const codeElement = document.getElementById('generatedCode');
+            
+            if (!selectedGiftUrl) {
+                codeElement.textContent = 'Выберите подарок из витрины';
+                return;
+            }
+            
+            let code = `[code]\n`;
+            code += `[img]${selectedGiftUrl}[/img]\n\n`;
+            code += `Для: ${recipient || '[введите ссылку на получателя]'}\n`;
+            code += `Текст: ${message || '[введите ваше пожелание]'}\n\n`;
+            code += `[/code]`;
+            
+            codeElement.textContent = code;
+        }
         
         function copyCode() {
             const codeElement = document.getElementById('generatedCode');
@@ -709,12 +819,10 @@ function updateCode() {
         document.getElementById('recipient').addEventListener('input', updateCode);
         document.getElementById('message').addEventListener('input', updateCode);
 
-        // Инициализация - показываем первую подкатегорию сезонных
+        // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
-            showSubcategory('newyear');
+            checkSeasonalAvailability();
         });
     </script>
 </body>
 </html>
-
-
