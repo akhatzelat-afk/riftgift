@@ -128,87 +128,87 @@
             object-fit: cover;
         }
         
-        /* Стекло с разными цветами */
-        .glass-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            transition: all 0.4s ease;
-            box-shadow: 
-                inset 0 0 30px rgba(255,255,255,0.6),
-                inset 0 0 20px rgba(255,255,255,0.4);
-            border: 2px solid rgba(255,255,255,0.6);
-        }
-        
-        /* Медное стекло */
-        .bronze .glass-effect {
-            background: 
-                linear-gradient(
-                    125deg,
-                    rgba(205, 127, 50, 0.35) 0%,
-                    rgba(205, 127, 50, 0.12) 50%,
-                    rgba(205, 127, 50, 0.35) 100%
-                ),
-                radial-gradient(
-                    circle at 30% 30%,
-                    rgba(205, 127, 50, 0.5) 0%,
-                    rgba(205, 127, 50, 0) 60%
-                );
-        }
-        
-        /* Серебряное стекло */
-        .silver .glass-effect {
-            background: 
-                linear-gradient(
-                    125deg,
-                    rgba(192, 192, 192, 0.4) 0%,
-                    rgba(192, 192, 192, 0.15) 50%,
-                    rgba(192, 192, 192, 0.4) 100%
-                ),
-                radial-gradient(
-                    circle at 30% 30%,
-                    rgba(255, 255, 255, 0.7) 0%,
-                    rgba(255, 255, 255, 0) 60%
-                );
-        }
-        
-        /* Золотое стекло */
-        .gold .glass-effect {
-            background: 
-                linear-gradient(
-                    125deg,
-                    rgba(255, 215, 0, 0.3) 0%,
-                    rgba(255, 215, 0, 0.1) 50%,
-                    rgba(255, 215, 0, 0.3) 100%
-                ),
-                radial-gradient(
-                    circle at 30% 30%,
-                    rgba(255, 215, 0, 0.6) 0%,
-                    rgba(255, 215, 0, 0) 60%
-                );
-        }
+        /* Стекло с разными цветами - делаем более прозрачным */
+.glass-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    box-shadow: 
+        inset 0 0 20px rgba(255,255,255,0.4), /* Уменьшил интенсивность */
+        inset 0 0 10px rgba(255,255,255,0.3); /* Уменьшил интенсивность */
+    border: 1px solid rgba(255,255,255,0.4); /* Более тонкая рамка */
+}
 
-        /* Алмазное стекло */
-        .diamond .glass-effect {
-            background: 
-                linear-gradient(
-                    125deg,
-                    rgba(185, 242, 255, 0.4) 0%,
-                    rgba(185, 242, 255, 0.15) 50%,
-                    rgba(185, 242, 255, 0.4) 100%
-                ),
-                radial-gradient(
-                    circle at 30% 30%,
-                    rgba(255, 255, 255, 0.8) 0%,
-                    rgba(185, 242, 255, 0) 60%
-                );
-            box-shadow: 
-                inset 0 0 40px rgba(185, 242, 255, 0.7),
-                inset 0 0 25px rgba(255, 255, 255, 0.5);
-        }
+/* Медное стекло - делаем прозрачнее */
+.bronze .glass-effect {
+    background: 
+        linear-gradient(
+            125deg,
+            rgba(205, 127, 50, 0.2) 0%,     /* Было 0.35 */
+            rgba(205, 127, 50, 0.08) 50%,   /* Было 0.12 */
+            rgba(205, 127, 50, 0.2) 100%    /* Было 0.35 */
+        ),
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(205, 127, 50, 0.3) 0%,     /* Было 0.5 */
+            rgba(205, 127, 50, 0) 60%
+        );
+}
+
+/* Серебряное стекло - делаем прозрачнее */
+.silver .glass-effect {
+    background: 
+        linear-gradient(
+            125deg,
+            rgba(192, 192, 192, 0.25) 0%,   /* Было 0.4 */
+            rgba(192, 192, 192, 0.1) 50%,   /* Было 0.15 */
+            rgba(192, 192, 192, 0.25) 100%  /* Было 0.4 */
+        ),
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.5) 0%,    /* Было 0.7 */
+            rgba(255, 255, 255, 0) 60%
+        );
+}
+
+/* Золотое стекло - делаем прозрачнее */
+.gold .glass-effect {
+    background: 
+        linear-gradient(
+            125deg,
+            rgba(255, 215, 0, 0.2) 0%,      /* Было 0.3 */
+            rgba(255, 215, 0, 0.08) 50%,    /* Было 0.1 */
+            rgba(255, 215, 0, 0.2) 100%     /* Было 0.3 */
+        ),
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 215, 0, 0.4) 0%,      /* Было 0.6 */
+            rgba(255, 215, 0, 0) 60%
+        );
+}
+
+/* Алмазное стекло - делаем прозрачнее */
+.diamond .glass-effect {
+    background: 
+        linear-gradient(
+            125deg,
+            rgba(185, 242, 255, 0.25) 0%,   /* Было 0.4 */
+            rgba(185, 242, 255, 0.1) 50%,   /* Было 0.15 */
+            rgba(185, 242, 255, 0.25) 100%  /* Было 0.4 */
+        ),
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.6) 0%,    /* Было 0.8 */
+            rgba(185, 242, 255, 0) 60%
+        );
+    box-shadow: 
+        inset 0 0 25px rgba(185, 242, 255, 0.5), /* Было 0.7 */
+        inset 0 0 15px rgba(255, 255, 255, 0.3); /* Было 0.5 */
+}
         
         .gift-item:hover .glass-effect {
             opacity: 0;
@@ -843,4 +843,5 @@
     </script>
 </body>
 </html>
+
 
