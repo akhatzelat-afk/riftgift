@@ -679,24 +679,24 @@
             updateCode();
         }
         
-        function updateCode() {
-            const recipient = document.getElementById('recipient').value;
-            const message = document.getElementById('message').value;
-            const codeElement = document.getElementById('generatedCode');
-            
-            if (!selectedGiftUrl) {
-                codeElement.textContent = 'Выберите подарок из витрины';
-                return;
-            }
-            
-            let code = `[code]\nЗАЯВКА НА ПОДАРОК\n\n`;
-            code += `[img]${selectedGiftUrl}[/img]\n\n`;
-            code += `Для: ${recipient || '[введите ссылку на получателя]'}\n`;
-            code += `Текст: ${message || '[введите ваше пожелание]'}\n\n`;
-            code += `[/code]`;
-            
-            codeElement.textContent = code;
-        }
+function updateCode() {
+    const recipient = document.getElementById('recipient').value;
+    const message = document.getElementById('message').value;
+    const codeElement = document.getElementById('generatedCode');
+    
+    if (!selectedGiftUrl) {
+        codeElement.textContent = 'Выберите подарок из витрины';
+        return;
+    }
+    
+    let code = `[code]\n`;  // Убрал "ЗАЯВКА НА ПОДАРОК"
+    code += `[img]${selectedGiftUrl}[/img]\n\n`;
+    code += `Для: ${recipient || '[введите ссылку на получателя]'}\n`;
+    code += `Текст: ${message || '[введите ваше пожелание]'}\n\n`;
+    code += `[/code]`;
+    
+    codeElement.textContent = code;
+}
         
         function copyCode() {
             const codeElement = document.getElementById('generatedCode');
@@ -716,4 +716,5 @@
     </script>
 </body>
 </html>
+
 
