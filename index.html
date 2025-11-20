@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лавка подарков</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        /* Навигация по категориям */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid #b8c6db;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Подкатегории для сезонных */
+        .subcategories {
+            display: none;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .subcategories.active {
+            display: flex;
+        }
+
+        .subcategory-btn {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            border: 1px solid #adb5bd;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+
+        .subcategory-btn:hover, .subcategory-btn.active {
+            background: linear-gradient(135deg, #5a67d8 0%, #4c51bf 100%);
+            color: white;
+        }
+        
+        /* Витрина подарков */
+        .gift-showcase {
+            display: none;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .gift-showcase.active {
+            display: grid;
+        }
+        
+        .gift-item {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .gift-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Стекло с разными цветами */
+        .glass-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            box-shadow: 
+                inset 0 0 30px rgba(255,255,255,0.6),
+                inset 0 0 20px rgba(255,255,255,0.4);
+            border: 2px solid rgba(255,255,255,0.6);
+        }
+        
+        /* Медное стекло */
+        .bronze .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(205, 127, 50, 0.35) 0%,
+                    rgba(205, 127, 50, 0.12) 50%,
+                    rgba(205, 127, 50, 0.35) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(205, 127, 50, 0.5) 0%,
+                    rgba(205, 127, 50, 0) 60%
+                );
+        }
+        
+        /* Серебряное стекло */
+        .silver .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(192, 192, 192, 0.4) 0%,
+                    rgba(192, 192, 192, 0.15) 50%,
+                    rgba(192, 192, 192, 0.4) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(255, 255, 255, 0.7) 0%,
+                    rgba(255, 255, 255, 0) 60%
+                );
+        }
+        
+        /* Золотое стекло */
+        .gold .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(255, 215, 0, 0.3) 0%,
+                    rgba(255, 215, 0, 0.1) 50%,
+                    rgba(255, 215, 0, 0.3) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(255, 215, 0, 0.6) 0%,
+                    rgba(255, 215, 0, 0) 60%
+                );
+        }
+
+        /* Алмазное стекло */
+        .diamond .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(185, 242, 255, 0.4) 0%,
+                    rgba(185, 242, 255, 0.15) 50%,
+                    rgba(185, 242, 255, 0.4) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(255, 255, 255, 0.8) 0%,
+                    rgba(185, 242, 255, 0) 60%
+                );
+            box-shadow: 
+                inset 0 0 40px rgba(185, 242, 255, 0.7),
+                inset 0 0 25px rgba(255, 255, 255, 0.5);
+        }
+        
+        .gift-item:hover .glass-effect {
+            opacity: 0;
+            transform: scale(1.1);
+        }
+        
+        .gift-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Форма */
+        .form-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .selected-gift-preview {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .preview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #dee2e6;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .code-output {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .code-content {
+            background: #1a202c;
+            padding: 15px;
+            border-radius: 5px;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            min-height: 100px;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Лавка подарков</h1>
+        
+        <!-- Навигация по категориям -->
+        <div class="categories">
+            <button class="category-btn active" onclick="showCategory('flora')">Флора и фауна</button>
+            <button class="category-btn" onclick="showCategory('seasonal')">Сезонные</button>
+            <button class="category-btn" onclick="showCategory('magic')">Магия</button>
+            <button class="category-btn" onclick="showCategory('mischief')">Пакости</button>
+            <button class="category-btn" onclick="showCategory('food')">Вкусняшки</button>
+            <button class="category-btn" onclick="showCategory('collectible')">Коллекционные</button>
+            <button class="category-btn" onclick="showCategory('other')">Разное</button>
+        </div>
+
+        <!-- Подкатегории для сезонных -->
+        <div class="subcategories" id="seasonalSubcategories">
+            <button class="subcategory-btn active" onclick="showSubcategory('newyear')">Новый год</button>
+            <button class="subcategory-btn" onclick="showSubcategory('birthday')">День рождения</button>
+            <button class="subcategory-btn" onclick="showSubcategory('valentine')">День святого Валентина</button>
+            <button class="subcategory-btn" onclick="showSubcategory('halloween')">Хэллоуин</button>
+            <button class="subcategory-btn" onclick="showSubcategory('easter')">Пасха</button>
+        </div>
+        
+        <!-- Витрины по категориям -->
+        
+        <!-- Флора и фауна - 30 подарков -->
+        <div id="flora" class="gift-showcase active">
+            <!-- 15 медных -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze10.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze11.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze12.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze13.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze14.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze15.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 10 серебряных -->
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/flora_silver10.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 5 золотых -->
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold5.jpg')"><div class="glass-effect"></div></div>
+        </div>
+        
+        <!-- Сезонные подкатегории -->
+        <div id="newyear" class="gift-showcase seasonal-showcase">
+            <!-- 6 подарков для нового года -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/newyear1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/newyear2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/newyear3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/newyear4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/newyear5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/newyear6.jpg')"><div class="glass-effect"></div></div>
+        </div>
+
+        <div id="birthday" class="gift-showcase seasonal-showcase">
+            <!-- 6 подарков для дня рождения -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/birthday1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/birthday2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/birthday3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/birthday4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/birthday5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/birthday6.jpg')"><div class="glass-effect"></div></div>
+        </div>
+
+        <div id="valentine" class="gift-showcase seasonal-showcase">
+            <!-- 6 подарков для дня влюбленных -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/valentine1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/valentine2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/valentine3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/valentine4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/valentine5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/valentine6.jpg')"><div class="glass-effect"></div></div>
+        </div>
+
+        <div id="halloween" class="gift-showcase seasonal-showcase">
+            <!-- 6 подарков для хэллоуина -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/halloween1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/halloween2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/halloween3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/halloween4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/halloween5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/halloween6.jpg')"><div class="glass-effect"></div></div>
+        </div>
+
+        <div id="easter" class="gift-showcase seasonal-showcase">
+            <!-- 6 подарков для пасхи -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/easter1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/easter2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/easter3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/easter4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/easter5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/easter6.jpg')"><div class="glass-effect"></div></div>
+        </div>
+        
+        <!-- Магия - 30 подарков -->
+        <div id="magic" class="gift-showcase">
+            <!-- 15 медных -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze10.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze11.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze12.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze13.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze14.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/magic_bronze15.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 10 серебряных -->
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/magic_silver10.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 5 золотых -->
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/magic_gold1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/magic_gold2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/magic_gold3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/magic_gold4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/magic_gold5.jpg')"><div class="glass-effect"></div></div>
+        </div>
+        
+        <!-- Пакости - 30 подарков -->
+        <div id="mischief" class="gift-showcase">
+            <!-- 15 медных -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze10.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze11.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze12.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze13.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze14.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/mischief_bronze15.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 10 серебряных -->
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/mischief_silver10.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 5 золотых -->
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/mischief_gold1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/mischief_gold2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/mischief_gold3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/mischief_gold4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/mischief_gold5.jpg')"><div class="glass-effect"></div></div>
+        </div>
+        
+        <!-- Вкусняшки - 30 подарков -->
+        <div id="food" class="gift-showcase">
+            <!-- 15 медных -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze10.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze11.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze12.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze13.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze14.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/food_bronze15.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 10 серебряных -->
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/food_silver10.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 5 золотых -->
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/food_gold1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/food_gold2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/food_gold3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/food_gold4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/food_gold5.jpg')"><div class="glass-effect"></div></div>
+        </div>
+
+        <!-- Коллекционные - 25 алмазных подарков -->
+        <div id="collectible" class="gift-showcase">
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible10.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible11.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible12.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible13.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible14.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible15.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible16.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible17.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible18.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible19.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible20.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible21.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible22.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible23.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible24.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible25.jpg')"><div class="glass-effect"></div></div>
+        </div>
+        
+        <!-- Разное - 30 подарков -->
+        <div id="other" class="gift-showcase">
+            <!-- 15 медных -->
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze10.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze11.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze12.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze13.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze14.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze15.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 10 серебряных -->
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver5.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver7.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver8.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver9.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/other_silver10.jpg')"><div class="glass-effect"></div></div>
+            
+            <!-- 5 золотых -->
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/other_gold1.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/other_gold2.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/other_gold3.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/other_gold4.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/other_gold5.jpg')"><div class="glass-effect"></div></div>
+        </div>
+        
+        <!-- Форма для заявки -->
+        <div class="form-container">
+            <div class="selected-gift-preview">
+                <img id="selectedGiftImage" class="preview-image" style="display: none;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Кому отправляем подарок:</label>
+                <input type="text" class="form-input" id="recipient" placeholder="Ссылка на профиль или тему...">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Текст для получателя:</label>
+                <input type="text" class="form-input" id="message" placeholder="Ваше пожелание...">
+            </div>
+            
+            <div class="code-output">
+                <div class="code-content" id="generatedCode">
+                    Выберите подарок из витрины
+                </div>
+                <button class="copy-btn" onclick="copyCode()">Скопировать код</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedGiftUrl = '';
+        
+        function showCategory(categoryId) {
+            // Скрываем все витрины
+            document.querySelectorAll('.gift-showcase').forEach(showcase => {
+                showcase.classList.remove('active');
+            });
+            
+            // Показываем выбранную
+            const selectedCategory = document.getElementById(categoryId);
+            if (selectedCategory) {
+                selectedCategory.classList.add('active');
+            }
+            
+            // Обновляем активную кнопку
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Показываем/скрываем подкатегории для сезонных
+            const subcategories = document.getElementById('seasonalSubcategories');
+            if (categoryId === 'seasonal') {
+                subcategories.classList.add('active');
+                // Показываем первую подкатегорию
+                showSubcategory('newyear');
+            } else {
+                subcategories.classList.remove('active');
+            }
+        }
+
+        function showSubcategory(subcategoryId) {
+            // Скрываем все сезонные витрины
+            document.querySelectorAll('.seasonal-showcase').forEach(showcase => {
+                showcase.classList.remove('active');
+            });
+            
+            // Показываем выбранную подкатегорию
+            const selectedSubcategory = document.getElementById(subcategoryId);
+            if (selectedSubcategory) {
+                selectedSubcategory.classList.add('active');
+            }
+            
+            // Обновляем активную кнопку подкатегории
+            document.querySelectorAll('.subcategory-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        function selectGift(element, imageUrl) {
+            selectedGiftUrl = imageUrl;
+            
+            // Показываем превью
+            const preview = document.getElementById('selectedGiftImage');
+            preview.src = imageUrl;
+            preview.style.display = 'block';
+            
+            // Обновляем код
+            updateCode();
+        }
+        
+        function updateCode() {
+            const recipient = document.getElementById('recipient').value;
+            const message = document.getElementById('message').value;
+            const codeElement = document.getElementById('generatedCode');
+            
+            if (!selectedGiftUrl) {
+                codeElement.textContent = 'Выберите подарок из витрины';
+                return;
+            }
+            
+            let code = `[code]\nЗАЯВКА НА ПОДАРОК\n\n`;
+            code += `[img]${selectedGiftUrl}[/img]\n\n`;
+            code += `Для: ${recipient || '[введите ссылку на получателя]'}\n`;
+            code += `Текст: ${message || '[введите ваше пожелание]'}\n\n`;
+            code += `[/code]`;
+            
+            codeElement.textContent = code;
+        }
+        
+        function copyCode() {
+            const codeElement = document.getElementById('generatedCode');
+            navigator.clipboard.writeText(codeElement.textContent).then(() => {
+                alert('Код скопирован!');
+            });
+        }
+        
+        // Слушаем изменения в полях ввода
+        document.getElementById('recipient').addEventListener('input', updateCode);
+        document.getElementById('message').addEventListener('input', updateCode);
+
+        // Инициализация - показываем первую подкатегорию сезонных
+        document.addEventListener('DOMContentLoaded', function() {
+            showSubcategory('newyear');
+        });
+    </script>
+</body>
+</html>
