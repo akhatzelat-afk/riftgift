@@ -93,7 +93,7 @@
             border: 1px dashed #adb5bd;
         }
         
-       /* Витрина подарков - ВОЗВРАЩАЕМ АВТО РАЗМЕРЫ */
+      /* Витрина подарков - ВОЗВРАЩАЕМ КАК БЫЛО */
 .gift-showcase {
     display: none;
     grid-template-columns: repeat(6, 1fr);
@@ -101,26 +101,26 @@
     margin-bottom: 30px;
 }
 
+.gift-showcase.active {
+    display: grid;
+}
+
 .gift-item {
     position: relative;
-    width: 100%;           /* ВОЗВРАЩАЕМ АВТО */
-    aspect-ratio: 1;       /* КВАДРАТ */
+    width: 100%;
+    aspect-ratio: 1;
     cursor: pointer;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-/* ОГРАНИЧИВАЕМ картинки до 100px внутри ячеек */
 .gift-image {
-    max-width: 100px;
-    max-height: 100px;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* МЕНЯЕМ ТОЛЬКО ЭТО */
 }
 
 /* Превью в заявке */
@@ -889,6 +889,7 @@ document.addEventListener('DOMContentLoaded', addImagesToGifts);
     </script>
 </body>
 </html>
+
 
 
 
