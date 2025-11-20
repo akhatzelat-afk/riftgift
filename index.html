@@ -128,7 +128,7 @@
             object-fit: cover;
         }
         
-        /* Стекло с разными цветами - делаем более прозрачным */
+       /* Стекло с разными цветами - ВЕРНУЛ КАК БЫЛО */
 .glass-effect {
     position: absolute;
     top: 0;
@@ -138,76 +138,76 @@
     pointer-events: none;
     transition: all 0.4s ease;
     box-shadow: 
-        inset 0 0 20px rgba(255,255,255,0.4), /* Уменьшил интенсивность */
-        inset 0 0 10px rgba(255,255,255,0.3); /* Уменьшил интенсивность */
-    border: 1px solid rgba(255,255,255,0.4); /* Более тонкая рамка */
+        inset 0 0 30px rgba(255,255,255,0.6),
+        inset 0 0 20px rgba(255,255,255,0.4);
+    border: 2px solid rgba(255,255,255,0.6);
 }
 
-/* Медное стекло - делаем прозрачнее */
+/* Медное стекло - ВЕРНУЛ КАК БЫЛО */
 .bronze .glass-effect {
     background: 
         linear-gradient(
             125deg,
-            rgba(205, 127, 50, 0.2) 0%,     /* Было 0.35 */
-            rgba(205, 127, 50, 0.08) 50%,   /* Было 0.12 */
-            rgba(205, 127, 50, 0.2) 100%    /* Было 0.35 */
+            rgba(205, 127, 50, 0.35) 0%,
+            rgba(205, 127, 50, 0.12) 50%,
+            rgba(205, 127, 50, 0.35) 100%
         ),
         radial-gradient(
             circle at 30% 30%,
-            rgba(205, 127, 50, 0.3) 0%,     /* Было 0.5 */
+            rgba(205, 127, 50, 0.5) 0%,
             rgba(205, 127, 50, 0) 60%
         );
 }
 
-/* Серебряное стекло - делаем прозрачнее */
+/* Серебряное стекло - ВЕРНУЛ КАК БЫЛО */
 .silver .glass-effect {
     background: 
         linear-gradient(
             125deg,
-            rgba(192, 192, 192, 0.25) 0%,   /* Было 0.4 */
-            rgba(192, 192, 192, 0.1) 50%,   /* Было 0.15 */
-            rgba(192, 192, 192, 0.25) 100%  /* Было 0.4 */
+            rgba(192, 192, 192, 0.4) 0%,
+            rgba(192, 192, 192, 0.15) 50%,
+            rgba(192, 192, 192, 0.4) 100%
         ),
         radial-gradient(
             circle at 30% 30%,
-            rgba(255, 255, 255, 0.5) 0%,    /* Было 0.7 */
+            rgba(255, 255, 255, 0.7) 0%,
             rgba(255, 255, 255, 0) 60%
         );
 }
 
-/* Золотое стекло - делаем прозрачнее */
+/* Золотое стекло - ВЕРНУЛ КАК БЫЛО */
 .gold .glass-effect {
     background: 
         linear-gradient(
             125deg,
-            rgba(255, 215, 0, 0.2) 0%,      /* Было 0.3 */
-            rgba(255, 215, 0, 0.08) 50%,    /* Было 0.1 */
-            rgba(255, 215, 0, 0.2) 100%     /* Было 0.3 */
+            rgba(255, 215, 0, 0.3) 0%,
+            rgba(255, 215, 0, 0.1) 50%,
+            rgba(255, 215, 0, 0.3) 100%
         ),
         radial-gradient(
             circle at 30% 30%,
-            rgba(255, 215, 0, 0.4) 0%,      /* Было 0.6 */
+            rgba(255, 215, 0, 0.6) 0%,
             rgba(255, 215, 0, 0) 60%
         );
 }
 
-/* Алмазное стекло - делаем прозрачнее */
+/* Алмазное стекло - ВЕРНУЛ КАК БЫЛО */
 .diamond .glass-effect {
     background: 
         linear-gradient(
             125deg,
-            rgba(185, 242, 255, 0.25) 0%,   /* Было 0.4 */
-            rgba(185, 242, 255, 0.1) 50%,   /* Было 0.15 */
-            rgba(185, 242, 255, 0.25) 100%  /* Было 0.4 */
+            rgba(185, 242, 255, 0.4) 0%,
+            rgba(185, 242, 255, 0.15) 50%,
+            rgba(185, 242, 255, 0.4) 100%
         ),
         radial-gradient(
             circle at 30% 30%,
-            rgba(255, 255, 255, 0.6) 0%,    /* Было 0.8 */
+            rgba(255, 255, 255, 0.8) 0%,
             rgba(185, 242, 255, 0) 60%
         );
     box-shadow: 
-        inset 0 0 25px rgba(185, 242, 255, 0.5), /* Было 0.7 */
-        inset 0 0 15px rgba(255, 255, 255, 0.3); /* Было 0.5 */
+        inset 0 0 40px rgba(185, 242, 255, 0.7),
+        inset 0 0 25px rgba(255, 255, 255, 0.5);
 }
         
         .gift-item:hover .glass-effect {
@@ -840,9 +840,51 @@
         document.addEventListener('DOMContentLoaded', function() {
             checkSeasonalAvailability();
         });
+
+
+
+        // Автоматическое добавление картинок к подаркам
+function addImagesToGifts() {
+    document.querySelectorAll('.gift-item').forEach(item => {
+        // Если внутри уже есть картинка - пропускаем
+        if (item.querySelector('img')) return;
+        
+        // Получаем URL из onclick
+        const onclick = item.getAttribute('onclick');
+        if (onclick && onclick.includes("selectGift")) {
+            const match = onclick.match(/selectGift\(this,\s*'([^']+)'\)/);
+            if (match && match[1]) {
+                const imageUrl = match[1];
+                
+                // Создаем и добавляем картинку
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.className = 'gift-image';
+                img.alt = 'Подарок';
+                
+                // Обработка ошибки загрузки картинки
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    item.innerHTML = 'Нет картинки';
+                    item.style.background = '#e9ecef';
+                    item.style.color = '#6c757d';
+                    item.style.display = 'flex';
+                    item.style.alignItems = 'center';
+                    item.style.justifyContent = 'center';
+                };
+                
+                item.insertBefore(img, item.firstChild);
+            }
+        }
+    });
+}
+
+// Вызываем при загрузке
+document.addEventListener('DOMContentLoaded', addImagesToGifts);
     </script>
 </body>
 </html>
+
 
 
 
