@@ -115,6 +115,15 @@
             display: grid;
         }
 
+        /* Сезонные подкатегории */
+        .seasonal-showcase {
+            display: none;
+        }
+
+        .seasonal-showcase.active {
+            display: grid;
+        }
+
         /* КОЛЛЕКЦИОННЫЕ - 5 в ряд всегда с фиксированными размерами */
         #collectible.gift-showcase {
             display: none;
@@ -524,8 +533,16 @@
             <button class="category-btn" onclick="showCategory('other')">Разное</button>
         </div>
 
-         <!-- Витрины по категориям -->
-        <!-- Флора и фауна - 30 подарков -->
+        <!-- Подкатегории для сезонных -->
+        <div class="subcategories" id="seasonalSubcategories">
+            <button class="subcategory-btn active" onclick="showSubcategory('newyear')">Новый год</button>
+            <button class="subcategory-btn" onclick="showSubcategory('birthday')">День рождения</button>
+            <button class="subcategory-btn" onclick="showSubcategory('valentine')">День святого Валентина</button>
+            <button class="subcategory-btn" onclick="showSubcategory('halloween')">Хэллоуин</button>
+            <button class="subcategory-btn" onclick="showSubcategory('easter')">Пасха</button>
+        </div>
+        
+       <!-- Флора и фауна - 30 подарков -->
         <div id="flora" class="gift-showcase active">
             <!-- 15 медных -->
             <div class="gift-item bronze" onclick="selectGift(this, 'https://i.pinimg.com/736x/48/32/7b/48327baffcf427874aeeabe915abbf94.jpg')"><div class="glass-effect"></div></div>
@@ -564,57 +581,57 @@
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold5.jpg')"><div class="glass-effect"></div></div>
         </div>
         
-       <!-- Сезонные подкатегории -->
+        <!-- Сезонные подкатегории -->
         <div id="newyear" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для нового года -->
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/newyear1.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/newyear2.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/newyear3.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/newyear4.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/newyear5.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/newyear6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=НГ1')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=НГ2')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=НГ3')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=НГ4')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=НГ5')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=НГ6')"><div class="glass-effect"></div></div>
         </div>
 
         <div id="birthday" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для дня рождения -->
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/birthday1.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/birthday2.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/birthday3.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/birthday4.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/birthday5.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/birthday6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=ДР1')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=ДР2')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=ДР3')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=ДР4')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=ДР5')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=ДР6')"><div class="glass-effect"></div></div>
         </div>
 
         <div id="valentine" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для дня влюбленных -->
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/valentine1.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/valentine2.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/valentine3.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/valentine4.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/valentine5.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/valentine6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=ДВ1')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=ДВ2')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=ДВ3')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=ДВ4')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=ДВ5')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=ДВ6')"><div class="glass-effect"></div></div>
         </div>
 
         <div id="halloween" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для хэллоуина -->
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/halloween1.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/halloween2.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/halloween3.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/halloween4.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/halloween5.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/halloween6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=Х1')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=Х2')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=Х3')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=Х4')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=Х5')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=Х6')"><div class="glass-effect"></div></div>
         </div>
 
         <div id="easter" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для пасхи -->
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/easter1.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/easter2.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/easter3.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item silver" onclick="selectGift(this, 'https://example.com/easter4.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/easter5.jpg')"><div class="glass-effect"></div></div>
-            <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/easter6.jpg')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=П1')"><div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://via.placeholder.com/100x100/CD7F32/FFFFFF?text=П2')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=П3')"><div class="glass-effect"></div></div>
+            <div class="gift-item silver" onclick="selectGift(this, 'https://via.placeholder.com/100x100/C0C0C0/000000?text=П4')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=П5')"><div class="glass-effect"></div></div>
+            <div class="gift-item gold" onclick="selectGift(this, 'https://via.placeholder.com/100x100/FFD700/000000?text=П6')"><div class="glass-effect"></div></div>
         </div>
-        
+
         <!-- Магия - 30 подарков -->
         <div id="magic" class="gift-showcase">
             <!-- 15 медных -->
@@ -732,45 +749,50 @@
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/food_gold5.jpg')"><div class="glass-effect"></div></div>
         </div>
 
-        <!-- КОЛЛЕКЦИОННЫЕ - 5 строк по 5 подарков -->
-        <div id="collectible" class="gift-showcase">
-            <!-- Строка 1 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл1')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл2')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл3')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл4')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл5')"><div class="glass-effect"></div></div>
-            
-            <!-- Строка 2 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл6')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл7')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл8')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл9')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл10')"><div class="glass-effect"></div></div>
-            
-            <!-- Строка 3 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл11')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл12')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл13')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл14')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл15')"><div class="glass-effect"></div></div>
-            
-            <!-- Строка 4 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл16')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл17')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл18')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл19')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл20')"><div class="glass-effect"></div></div>
-            
-            <!-- Строка 5 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл21')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл22')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл23')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл24')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл25')"><div class="glass-effect"></div></div>
-        </div>
+  <!-- Коллекционные - 5 строк по 5 подарков -->
+<div id="collectible" class="gift-showcase">
+    <!-- Строка 1 -->
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://i.pinimg.com/736x/48/32/7b/48327baffcf427874aeeabe915abbf94.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible2.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible3.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible4.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible5.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item" style="visibility: hidden;"></div> <!-- Пустая ячейка для выравнивания -->
+    
+    <!-- Строка 2 -->
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible6.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible7.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible8.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible9.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible10.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item" style="visibility: hidden;"></div>
+    
+    <!-- Строка 3 -->
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible11.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible12.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible13.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible14.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible15.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item" style="visibility: hidden;"></div>
+    
+    <!-- Строка 4 -->
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible16.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible17.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible18.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible19.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible20.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item" style="visibility: hidden;"></div>
+    
+    <!-- Строка 5 -->
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible21.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible22.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible23.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible24.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item diamond" onclick="selectGift(this, 'https://example.com/collectible25.jpg')"><div class="glass-effect"></div></div>
+    <div class="gift-item" style="visibility: hidden;"></div>
+</div>
         
-         <!-- Разное - 30 подарков -->
+      <!-- Разное - 30 подарков -->
         <div id="other" class="gift-showcase">
             <!-- 15 медных -->
             <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze1.jpg')"><div class="glass-effect"></div></div>
@@ -873,7 +895,6 @@
                 btn.classList.remove('active');
             });
             
-            // Находим нажатую кнопку
             const clickedButton = event?.target || document.querySelector(`[onclick="showCategory('${categoryId}')"]`);
             if (clickedButton) {
                 clickedButton.classList.add('active');
