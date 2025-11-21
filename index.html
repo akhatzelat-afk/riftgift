@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Лавка подарков</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
         }
         
         .container {
@@ -18,28 +22,28 @@
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         
         h1 {
             text-align: center;
             color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-size: clamp(1.5em, 5vw, 2.5em);
         }
         
-        /* Навигация по категориям */
+        /* Навигация по категориям - адаптивная */
         .categories {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
         }
         
         .category-btn {
-            padding: 10px 20px;
+            padding: 8px 16px;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             border: 2px solid #b8c6db;
             border-radius: 20px;
@@ -47,6 +51,11 @@
             font-weight: bold;
             color: #333;
             transition: all 0.3s ease;
+            font-size: 14px;
+            flex: 1;
+            min-width: 120px;
+            max-width: 160px;
+            text-align: center;
         }
         
         .category-btn:hover, .category-btn.active {
@@ -59,10 +68,10 @@
         /* Подкатегории для сезонных */
         .subcategories {
             display: none;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 15px;
         }
 
         .subcategories.active {
@@ -70,12 +79,12 @@
         }
 
         .subcategory-btn {
-            padding: 8px 16px;
+            padding: 6px 12px;
             background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
             border: 1px solid #adb5bd;
             border-radius: 15px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             color: #495057;
             transition: all 0.3s ease;
             position: relative;
@@ -93,132 +102,130 @@
             border: 1px dashed #adb5bd;
         }
         
-   /* Витрина подарков - финальная версия */
-.gift-showcase {
-    display: none;
-    grid-template-columns: repeat(6, 100px);
-    gap: 10px;
-    margin-bottom: 30px;
-    justify-content: center;
-}
+        /* Витрина подарков - адаптивная */
+        .gift-showcase {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
 
-.gift-showcase.active {
-    display: grid;
-}
+        .gift-showcase.active {
+            display: grid;
+        }
 
-.gift-item {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
+        .gift-item {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
 
-.gift-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 5px;
-    box-sizing: border-box;
-}
+        .gift-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
+        }
 
-/* Превью в заявке */
-.pview-image {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 10px;
-    border: 3px solid #dee2e6;
-    padding: 5px;
-    box-sizing: border-box;
-}
+        /* Превью в заявке */
+        .pview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            background: linear-gradient(135deg, #f8f9fa 0%, #dee2e6 100%);
+            border-radius: 10px;
+            border: 3px solid #dee2e6;
+            padding: 5px;
+        }
         
-       /* Стекло с разными цветами - ВЕРНУЛ КАК БЫЛО */
-.glass-effect {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    transition: all 0.4s ease;
-    box-shadow: 
-        inset 0 0 30px rgba(255,255,255,0.6),
-        inset 0 0 20px rgba(255,255,255,0.4);
-    border: 2px solid rgba(255,255,255,0.6);
-}
+        /* Стекло с разными цветами */
+        .glass-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            box-shadow: 
+                inset 0 0 30px rgba(255,255,255,0.6),
+                inset 0 0 20px rgba(255,255,255,0.4);
+            border: 2px solid rgba(255,255,255,0.6);
+        }
 
-/* Медное стекло - ВЕРНУЛ КАК БЫЛО */
-.bronze .glass-effect {
-    background: 
-        linear-gradient(
-            125deg,
-            rgba(205, 127, 50, 0.35) 0%,
-            rgba(205, 127, 50, 0.12) 50%,
-            rgba(205, 127, 50, 0.35) 100%
-        ),
-        radial-gradient(
-            circle at 30% 30%,
-            rgba(205, 127, 50, 0.5) 0%,
-            rgba(205, 127, 50, 0) 60%
-        );
-}
+        /* Медное стекло */
+        .bronze .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(205, 127, 50, 0.35) 0%,
+                    rgba(205, 127, 50, 0.12) 50%,
+                    rgba(205, 127, 50, 0.35) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(205, 127, 50, 0.5) 0%,
+                    rgba(205, 127, 50, 0) 60%
+                );
+        }
 
-/* Серебряное стекло - ВЕРНУЛ КАК БЫЛО */
-.silver .glass-effect {
-    background: 
-        linear-gradient(
-            125deg,
-            rgba(192, 192, 192, 0.4) 0%,
-            rgba(192, 192, 192, 0.15) 50%,
-            rgba(192, 192, 192, 0.4) 100%
-        ),
-        radial-gradient(
-            circle at 30% 30%,
-            rgba(255, 255, 255, 0.7) 0%,
-            rgba(255, 255, 255, 0) 60%
-        );
-}
+        /* Серебряное стекло */
+        .silver .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(192, 192, 192, 0.4) 0%,
+                    rgba(192, 192, 192, 0.15) 50%,
+                    rgba(192, 192, 192, 0.4) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(255, 255, 255, 0.7) 0%,
+                    rgba(255, 255, 255, 0) 60%
+                );
+        }
 
-/* Золотое стекло - ВЕРНУЛ КАК БЫЛО */
-.gold .glass-effect {
-    background: 
-        linear-gradient(
-            125deg,
-            rgba(255, 215, 0, 0.3) 0%,
-            rgba(255, 215, 0, 0.1) 50%,
-            rgba(255, 215, 0, 0.3) 100%
-        ),
-        radial-gradient(
-            circle at 30% 30%,
-            rgba(255, 215, 0, 0.6) 0%,
-            rgba(255, 215, 0, 0) 60%
-        );
-}
+        /* Золотое стекло */
+        .gold .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(255, 215, 0, 0.3) 0%,
+                    rgba(255, 215, 0, 0.1) 50%,
+                    rgba(255, 215, 0, 0.3) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(255, 215, 0, 0.6) 0%,
+                    rgba(255, 215, 0, 0) 60%
+                );
+        }
 
-/* Алмазное стекло - ВЕРНУЛ КАК БЫЛО */
-.diamond .glass-effect {
-    background: 
-        linear-gradient(
-            125deg,
-            rgba(185, 242, 255, 0.4) 0%,
-            rgba(185, 242, 255, 0.15) 50%,
-            rgba(185, 242, 255, 0.4) 100%
-        ),
-        radial-gradient(
-            circle at 30% 30%,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(185, 242, 255, 0) 60%
-        );
-    box-shadow: 
-        inset 0 0 40px rgba(185, 242, 255, 0.7),
-        inset 0 0 25px rgba(255, 255, 255, 0.5);
-}
+        /* Алмазное стекло */
+        .diamond .glass-effect {
+            background: 
+                linear-gradient(
+                    125deg,
+                    rgba(185, 242, 255, 0.4) 0%,
+                    rgba(185, 242, 255, 0.15) 50%,
+                    rgba(185, 242, 255, 0.4) 100%
+                ),
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(255, 255, 255, 0.8) 0%,
+                    rgba(185, 242, 255, 0) 60%
+                );
+            box-shadow: 
+                inset 0 0 40px rgba(185, 242, 255, 0.7),
+                inset 0 0 25px rgba(255, 255, 255, 0.5);
+        }
         
         .gift-item:hover .glass-effect {
             opacity: 0;
@@ -230,17 +237,17 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
         
-        /* Форма */
+        /* Форма - адаптивная */
         .form-container {
             background: #f8f9fa;
             border-radius: 10px;
-            padding: 25px;
+            padding: 20px;
             border: 2px solid #dee2e6;
         }
         
         .selected-gift-preview {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .preview-image {
@@ -260,21 +267,22 @@
             margin-bottom: 8px;
             font-weight: bold;
             color: #333;
+            font-size: 14px;
         }
         
         .form-input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 2px solid #ced4da;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 16px;
             box-sizing: border-box;
         }
         
         .code-output {
             background: #2d3748;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             margin-top: 20px;
         }
         
@@ -286,20 +294,39 @@
             font-family: 'Courier New', monospace;
             white-space: pre-wrap;
             min-height: 100px;
+            font-size: 14px;
+            overflow-x: auto;
         }
         
         .copy-btn {
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
             font-weight: bold;
+            width: 100%;
+            font-size: 16px;
+            transition: all 0.3s ease;
         }
 
-        /* Подсказка поверх всего */
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+        }
+
+        /* Подсказка поверх всего - адаптивная */
         .seasonal-tooltip {
             position: fixed;
             top: 50%;
@@ -307,18 +334,121 @@
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.95);
             color: white;
-            padding: 20px 30px;
+            padding: 15px 20px;
             border-radius: 10px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             z-index: 10000;
             border: 3px solid #fff;
             box-shadow: 0 0 30px rgba(0,0,0,0.7);
             display: none;
+            max-width: 90%;
+            text-align: center;
         }
 
         .seasonal-tooltip.show {
             display: block;
+        }
+
+        /* Медиа-запросы для разных размеров экранов */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .categories {
+                gap: 6px;
+            }
+            
+            .category-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+                min-width: 100px;
+                max-width: 140px;
+            }
+            
+            .gift-showcase {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 6px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .code-output {
+                padding: 12px;
+            }
+            
+            .code-content {
+                padding: 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 12px;
+                border-radius: 12px;
+            }
+            
+            .categories {
+                gap: 4px;
+            }
+            
+            .category-btn {
+                padding: 5px 10px;
+                font-size: 11px;
+                min-width: 90px;
+                max-width: 110px;
+            }
+            
+            .gift-showcase {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+                gap: 5px;
+            }
+            
+            .form-input {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .preview-image {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        /* Улучшения для touch-устройств */
+        @media (hover: none) {
+            .gift-item:hover {
+                transform: none;
+            }
+            
+            .gift-item:active {
+                transform: scale(0.95);
+            }
+            
+            .category-btn:hover, .subcategory-btn:hover {
+                transform: none;
+            }
+            
+            .category-btn:active, .subcategory-btn:active {
+                transform: scale(0.95);
+            }
+            
+            .copy-btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .copy-btn:active {
+                background: linear-gradient(135deg, #2f855a 0%, #276749 100%);
+            }
         }
     </style>
 </head>
@@ -346,12 +476,11 @@
             <button class="subcategory-btn" onclick="showSubcategory('easter')">Пасха</button>
         </div>
         
-      <!-- Витрины по категориям -->
-        
+        <!-- Витрины по категориям -->
         <!-- Флора и фауна - 30 подарков -->
         <div id="flora" class="gift-showcase active">
             <!-- 15 медных -->
-            <div class="gift-item bronze" onclick="selectGift(this, 'https://i.pinimg.com/736x/48/32/7b/48327baffcf427874aeeabe915abbf94.jpg')"> <div class="glass-effect"></div></div>
+            <div class="gift-item bronze" onclick="selectGift(this, 'https://i.pinimg.com/736x/48/32/7b/48327baffcf427874aeeabe915abbf94.jpg')"><div class="glass-effect"></div></div>
             <div class="gift-item bronze" onclick="selectGift(this, 'https://upforme.ru/uploads/001b/d9/4a/405/513781.png')"><div class="glass-effect"></div></div>
             <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze3.jpg')"><div class="glass-effect"></div></div>
             <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/flora_bronze4.jpg')"><div class="glass-effect"></div></div>
@@ -387,7 +516,7 @@
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/flora_gold5.jpg')"><div class="glass-effect"></div></div>
         </div>
         
-        <!-- Сезонные подкатегории -->
+       <!-- Сезонные подкатегории -->
         <div id="newyear" class="gift-showcase seasonal-showcase">
             <!-- 6 подарков для нового года -->
             <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/newyear1.jpg')"><div class="glass-effect"></div></div>
@@ -636,7 +765,7 @@
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/other_gold4.jpg')"><div class="glass-effect"></div></div>
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/other_gold5.jpg')"><div class="glass-effect"></div></div>
         </div>
-        
+
         <!-- Форма для заявки -->
         <div class="form-container">
             <div class="selected-gift-preview">
@@ -676,6 +805,9 @@
             }
             tooltip.textContent = text;
             tooltip.classList.add('show');
+            
+            // Автоматическое скрытие через 3 секунды
+            setTimeout(hideSeasonalTooltip, 3000);
         }
 
         function hideSeasonalTooltip() {
@@ -729,19 +861,32 @@
             
             // Обновляем кнопки подкатегорий
             document.querySelectorAll('.subcategory-btn').forEach(btn => {
-                const category = btn.getAttribute('onclick').match(/showSubcategory\('(\w+)'\)/)[1];
-                const categoryInfo = seasonalDates[category];
-                
-                if (!categoryInfo.available) {
-                    btn.classList.add('unavailable');
-                    // Убираем title и добавляем обработчики событий
-                    btn.removeAttribute('title');
-                    btn.onmouseenter = () => showSeasonalTooltip(categoryInfo.text);
-                    btn.onmouseleave = hideSeasonalTooltip;
-                } else {
-                    btn.classList.remove('unavailable');
-                    btn.onmouseenter = null;
-                    btn.onmouseleave = null;
+                const onclick = btn.getAttribute('onclick');
+                if (onclick) {
+                    const match = onclick.match(/showSubcategory\('(\w+)'\)/);
+                    if (match && match[1]) {
+                        const category = match[1];
+                        const categoryInfo = seasonalDates[category];
+                        
+                        if (categoryInfo) {
+                            if (!categoryInfo.available) {
+                                btn.classList.add('unavailable');
+                                // Добавляем обработчики для ПК
+                                btn.onmouseenter = () => showSeasonalTooltip(categoryInfo.text);
+                                btn.onmouseleave = hideSeasonalTooltip;
+                                // Добавляем обработчики для мобильных
+                                btn.ontouchstart = function(e) {
+                                    e.preventDefault();
+                                    showSeasonalTooltip(categoryInfo.text);
+                                };
+                            } else {
+                                btn.classList.remove('unavailable');
+                                btn.onmouseenter = null;
+                                btn.onmouseleave = null;
+                                btn.ontouchstart = null;
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -761,7 +906,13 @@
             
             for (let cat of availableCategories) {
                 if (cat.always || cat.condition) {
-                    showSubcategory(cat.id);
+                    // Находим кнопку и кликаем по ней
+                    const button = document.querySelector(`.subcategory-btn[onclick="showSubcategory('${cat.id}')"]`);
+                    if (button) {
+                        // Создаем искусственное событие
+                        const event = new Event('click');
+                        button.dispatchEvent(event);
+                    }
                     break;
                 }
             }
@@ -782,7 +933,7 @@
             
             // Проверяем доступность
             if (!seasonalDates[subcategoryId]) {
-                alert('Эта категория временно недоступна. Проверьте даты доступности в подсказках.');
+                showSeasonalTooltip('Эта категория временно недоступна. Проверьте даты доступности.');
                 return;
             }
             
@@ -801,7 +952,12 @@
             document.querySelectorAll('.subcategory-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            // Находим кнопку, соответствующую выбранной подкатегории
+            const activeButton = document.querySelector(`.subcategory-btn[onclick="showSubcategory('${subcategoryId}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
         }
         
         function selectGift(element, imageUrl) {
@@ -837,75 +993,124 @@
         
         function copyCode() {
             const codeElement = document.getElementById('generatedCode');
-            navigator.clipboard.writeText(codeElement.textContent).then(() => {
-                alert('Код скопирован!');
+            const codeText = codeElement.textContent;
+            
+            // Проверяем, есть ли что копировать
+            if (!codeText || codeText === 'Выберите подарок из витрины') {
+                alert('Сначала выберите подарок из витрины!');
+                return;
+            }
+            
+            // Используем современный API Clipboard
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Скопировано!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                // Fallback для старых браузеров
+                console.error('Ошибка копирования:', err);
+                fallbackCopyTextToClipboard(codeText);
             });
+        }
+
+        // Fallback метод для копирования
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const btn = document.querySelector('.copy-btn');
+                    const originalText = btn.textContent;
+                    btn.textContent = '✓ Скопировано!';
+                    btn.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.classList.remove('copied');
+                    }, 2000);
+                } else {
+                    alert('Не удалось скопировать код. Скопируйте текст вручную.');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                alert('Не удалось скопировать код. Скопируйте текст вручную.');
+            }
+            
+            document.body.removeChild(textArea);
         }
         
         // Слушаем изменения в полях ввода
         document.getElementById('recipient').addEventListener('input', updateCode);
         document.getElementById('message').addEventListener('input', updateCode);
 
-        // Инициализация
+        // Автоматическое добавление картинок к подаркам
+        function addImagesToGifts() {
+            document.querySelectorAll('.gift-item').forEach(item => {
+                // Если внутри уже есть картинка - пропускаем
+                if (item.querySelector('img')) return;
+                
+                // Получаем URL из onclick
+                const onclick = item.getAttribute('onclick');
+                if (onclick && onclick.includes("selectGift")) {
+                    const match = onclick.match(/selectGift\(this,\s*'([^']+)'\)/);
+                    if (match && match[1]) {
+                        const imageUrl = match[1];
+                        
+                        // Создаем и добавляем картинку
+                        const img = document.createElement('img');
+                        img.src = imageUrl;
+                        img.className = 'gift-image';
+                        img.alt = 'Подарок';
+                        img.loading = 'lazy';
+                        
+                        // Обработка ошибки загрузки картинки
+                        img.onerror = function() {
+                            this.style.display = 'none';
+                            item.innerHTML = 'Нет картинки';
+                            item.style.background = '#e9ecef';
+                            item.style.color = '#6c757d';
+                            item.style.display = 'flex';
+                            item.style.alignItems = 'center';
+                            item.style.justifyContent = 'center';
+                            item.style.fontSize = '10px';
+                        };
+                        
+                        item.insertBefore(img, item.firstChild);
+                    }
+                }
+            });
+        }
+
+        // Вызываем при загрузке
         document.addEventListener('DOMContentLoaded', function() {
+            addImagesToGifts();
             checkSeasonalAvailability();
+            
+            // Инициализируем первую доступную подкатегорию при загрузке
+            const seasonalBtn = document.querySelector('.category-btn[onclick="showCategory(\'seasonal\')"]');
+            if (seasonalBtn && seasonalBtn.classList.contains('active')) {
+                showFirstAvailableSubcategory();
+            }
         });
 
-
-
-        // Автоматическое добавление картинок к подаркам
-function addImagesToGifts() {
-    document.querySelectorAll('.gift-item').forEach(item => {
-        // Если внутри уже есть картинка - пропускаем
-        if (item.querySelector('img')) return;
-        
-        // Получаем URL из onclick
-        const onclick = item.getAttribute('onclick');
-        if (onclick && onclick.includes("selectGift")) {
-            const match = onclick.match(/selectGift\(this,\s*'([^']+)'\)/);
-            if (match && match[1]) {
-                const imageUrl = match[1];
-                
-                // Создаем и добавляем картинку
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.className = 'gift-image';
-                img.alt = 'Подарок';
-                
-                // Обработка ошибки загрузки картинки
-                img.onerror = function() {
-                    this.style.display = 'none';
-                    item.innerHTML = 'Нет картинки';
-                    item.style.background = '#e9ecef';
-                    item.style.color = '#6c757d';
-                    item.style.display = 'flex';
-                    item.style.alignItems = 'center';
-                    item.style.justifyContent = 'center';
-                };
-                
-                item.insertBefore(img, item.firstChild);
-            }
-        }
-    });
-}
-
-// Вызываем при загрузке
-document.addEventListener('DOMContentLoaded', addImagesToGifts);
-
-
-
+        // Обработка изменения ориентации экрана
+        window.addEventListener('orientationchange', function() {
+            setTimeout(addImagesToGifts, 100);
+        });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
