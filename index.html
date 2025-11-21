@@ -115,56 +115,31 @@
             display: grid;
         }
 
-        /* Коллекционные подарки */
+        /* КОЛЛЕКЦИОННЫЕ - 5 в ряд всегда с фиксированными размерами */
         #collectible.gift-showcase {
+            display: none;
             grid-template-columns: repeat(5, 100px);
             gap: 10px;
             justify-content: center;
+            width: 100%;
         }
 
-        /* Горизонтальная прокрутка для мобильных */
-        @media (max-width: 768px) {
-            #collectible.gift-showcase {
-                display: grid;
-                grid-template-columns: repeat(5, 80px);
-                gap: 8px;
-                overflow-x: auto;
-                padding: 10px 5px;
-                margin: 0 -5px 25px -5px;
-                -webkit-overflow-scrolling: touch;
-                width: 100vw;
-                position: relative;
-                left: 50%;
-                right: 50%;
-                margin-left: -50vw;
-                margin-right: -50vw;
-            }
+        #collectible.gift-showcase.active {
+            display: grid;
         }
 
-        @media (max-width: 480px) {
-            #collectible.gift-showcase {
-                grid-template-columns: repeat(5, 70px);
-                gap: 6px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            #collectible.gift-showcase {
-                grid-template-columns: repeat(5, 65px);
-                gap: 5px;
-            }
-        }
-
+        /* Фиксированные размеры для всех подарков */
         .gift-item {
             position: relative;
-            width: 100%;
-            aspect-ratio: 1/1;
+            width: 100px;
+            height: 100px;
             cursor: pointer;
             overflow: hidden;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            flex-shrink: 0;
         }
 
         .gift-image {
@@ -375,7 +350,7 @@
             display: block;
         }
 
-        /* Адаптивность */
+        /* Адаптивность для коллекционных на мобильных */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -392,9 +367,39 @@
                 max-width: 140px;
             }
             
-            .gift-showcase {
+            /* Коллекционные на мобильных - горизонтальная прокрутка */
+            #collectible.gift-showcase {
+                display: none;
+                grid-template-columns: repeat(5, 80px);
+                gap: 8px;
+                overflow-x: auto;
+                padding: 10px 5px;
+                margin: 0 -5px 25px -5px;
+                -webkit-overflow-scrolling: touch;
+                width: calc(100% + 10px);
+                position: relative;
+                left: -5px;
+            }
+            
+            #collectible.gift-showcase.active {
+                display: grid;
+            }
+            
+            #collectible .gift-item {
+                width: 80px;
+                height: 80px;
+            }
+            
+            /* Обычные категории */
+            .gift-showcase:not(#collectible) {
                 grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
                 gap: 8px;
+            }
+            
+            .gift-showcase:not(#collectible) .gift-item {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1/1;
             }
             
             .form-container {
@@ -432,7 +437,17 @@
                 max-width: 110px;
             }
             
-            .gift-showcase {
+            #collectible.gift-showcase {
+                grid-template-columns: repeat(5, 70px);
+                gap: 6px;
+            }
+            
+            #collectible .gift-item {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .gift-showcase:not(#collectible) {
                 grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
                 gap: 6px;
             }
@@ -445,6 +460,23 @@
             .preview-image {
                 width: 80px;
                 height: 80px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            #collectible.gift-showcase {
+                grid-template-columns: repeat(5, 65px);
+                gap: 5px;
+            }
+            
+            #collectible .gift-item {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .gift-showcase:not(#collectible) {
+                grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+                gap: 5px;
             }
         }
 
@@ -492,16 +524,7 @@
             <button class="category-btn" onclick="showCategory('other')">Разное</button>
         </div>
 
-        <!-- Подкатегории для сезонных -->
-        <div class="subcategories" id="seasonalSubcategories">
-            <button class="subcategory-btn active" onclick="showSubcategory('newyear')">Новый год</button>
-            <button class="subcategory-btn" onclick="showSubcategory('birthday')">День рождения</button>
-            <button class="subcategory-btn" onclick="showSubcategory('valentine')">День святого Валентина</button>
-            <button class="subcategory-btn" onclick="showSubcategory('halloween')">Хэллоуин</button>
-            <button class="subcategory-btn" onclick="showSubcategory('easter')">Пасха</button>
-        </div>
-        
-       <!-- Витрины по категориям -->
+         <!-- Витрины по категориям -->
         <!-- Флора и фауна - 30 подарков -->
         <div id="flora" class="gift-showcase active">
             <!-- 15 медных -->
@@ -709,46 +732,45 @@
             <div class="gift-item gold" onclick="selectGift(this, 'https://example.com/food_gold5.jpg')"><div class="glass-effect"></div></div>
         </div>
 
-        <!-- Коллекционные - 5 строк по 5 подарков -->
+        <!-- КОЛЛЕКЦИОННЫЕ - 5 строк по 5 подарков -->
         <div id="collectible" class="gift-showcase">
             <!-- Строка 1 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл1')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл2')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл3')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл4')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл5')"><div class="glass-effect"></div></div>
             
             <!-- Строка 2 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл6')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл7')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл8')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл9')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл10')"><div class="glass-effect"></div></div>
             
             <!-- Строка 3 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл11')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл12')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл13')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл14')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл15')"><div class="glass-effect"></div></div>
             
             <!-- Строка 4 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл16')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл17')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл18')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл19')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл20')"><div class="glass-effect"></div></div>
             
             <!-- Строка 5 -->
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
-            <div class="gift-item diamond" onclick="selectGift(this, 'URL_картинки')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл21')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл22')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл23')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл24')"><div class="glass-effect"></div></div>
+            <div class="gift-item diamond" onclick="selectGift(this, 'https://via.placeholder.com/100x100/B9F2FF/000000?text=Колл25')"><div class="glass-effect"></div></div>
         </div>
         
-        <div id="other" class="gift-showcase">
-              <!-- Разное - 30 подарков -->
+         <!-- Разное - 30 подарков -->
         <div id="other" class="gift-showcase">
             <!-- 15 медных -->
             <div class="gift-item bronze" onclick="selectGift(this, 'https://example.com/other_bronze1.jpg')"><div class="glass-effect"></div></div>
@@ -812,21 +834,19 @@
         </div>
     </div>
 
+    <div id="seasonalTooltip" class="seasonal-tooltip"></div>
+
     <script>
         let selectedGiftUrl = '';
         
         function showSeasonalTooltip(text) {
             let tooltip = document.getElementById('seasonalTooltip');
-            if (!tooltip) {
-                tooltip = document.createElement('div');
-                tooltip.id = 'seasonalTooltip';
-                tooltip.className = 'seasonal-tooltip';
-                document.body.appendChild(tooltip);
+            if (tooltip) {
+                tooltip.textContent = text;
+                tooltip.classList.add('show');
+                
+                setTimeout(hideSeasonalTooltip, 3000);
             }
-            tooltip.textContent = text;
-            tooltip.classList.add('show');
-            
-            setTimeout(hideSeasonalTooltip, 3000);
         }
 
         function hideSeasonalTooltip() {
@@ -852,7 +872,12 @@
             document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            // Находим нажатую кнопку
+            const clickedButton = event?.target || document.querySelector(`[onclick="showCategory('${categoryId}')"]`);
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
 
             // Показываем/скрываем подкатегории для сезонных
             const subcategories = document.getElementById('seasonalSubcategories');
@@ -927,11 +952,10 @@
             for (let cat of availableCategories) {
                 if (cat.always || cat.condition) {
                     const button = document.querySelector(`.subcategory-btn[onclick="showSubcategory('${cat.id}')"]`);
-                    if (button) {
-                        const event = new Event('click');
-                        button.dispatchEvent(event);
+                    if (button && !button.classList.contains('unavailable')) {
+                        showSubcategory(cat.id);
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -1058,8 +1082,16 @@
             document.body.removeChild(textArea);
         }
         
-        document.getElementById('recipient').addEventListener('input', updateCode);
-        document.getElementById('message').addEventListener('input', updateCode);
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Добавляем обработчики событий
+            document.getElementById('recipient').addEventListener('input', updateCode);
+            document.getElementById('message').addEventListener('input', updateCode);
+            
+            // Добавляем изображения к подаркам
+            addImagesToGifts();
+            checkSeasonalAvailability();
+        });
 
         function addImagesToGifts() {
             document.querySelectorAll('.gift-item').forEach(item => {
@@ -1079,13 +1111,10 @@
                         
                         img.onerror = function() {
                             this.style.display = 'none';
-                            item.innerHTML = 'Нет картинки';
-                            item.style.background = '#e9ecef';
-                            item.style.color = '#6c757d';
-                            item.style.display = 'flex';
-                            item.style.alignItems = 'center';
-                            item.style.justifyContent = 'center';
-                            item.style.fontSize = '10px';
+                            const placeholder = document.createElement('div');
+                            placeholder.textContent = 'Нет картинки';
+                            placeholder.style.cssText = 'display: flex; align-items: center; justify-content: center; height: 100%; color: #6c757d; font-size: 10px;';
+                            item.appendChild(placeholder);
                         };
                         
                         item.insertBefore(img, item.firstChild);
@@ -1093,11 +1122,6 @@
                 }
             });
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            addImagesToGifts();
-            checkSeasonalAvailability();
-        });
 
         window.addEventListener('orientationchange', function() {
             setTimeout(addImagesToGifts, 100);
