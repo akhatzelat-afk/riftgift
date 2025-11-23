@@ -848,23 +848,23 @@
         font-size: 20px;
     }
 
-   /* Улучшенная прокрутка для коллекционных на мобильных */
+  /* Улучшенная прокрутка для коллекционных на мобильных */
 #collectible.gift-showcase {
     display: none;
     grid-template-columns: repeat(5, 80px);
     gap: 8px;
     overflow-x: auto;
-    padding: 10px 15px; /* Симметричные отступы */
-    margin: 0 -15px 25px -15px;
+    padding: 10px 20px 10px 20px; /* Внутренние отступы */
+    margin: 0 0 25px 0; /* Убираем отрицательные margin */
     -webkit-overflow-scrolling: touch;
-    width: calc(100% + 30px);
+    width: 100%;
     position: relative;
-    left: -15px;
+    /* Убираем left */
+    justify-content: flex-start;
 }
 
-/* ДОБАВИТЬ этот блок для симметрии */
-.container {
-    overflow: hidden;
+#collectible.gift-showcase.active {
+    display: grid;
 }
 
 #collectible .gift-item {
@@ -873,19 +873,34 @@
     flex-shrink: 0;
 }
 
+/* Убираем overflow: hidden у контейнера */
+.container {
+    /* overflow: hidden; - УБРАТЬ ЭТУ СТРОЧКУ */
+}
+
 @media (max-width: 480px) {
     #collectible.gift-showcase {
         grid-template-columns: repeat(5, 70px);
         gap: 6px;
-        padding: 10px 10px; /* Симметричные отступы */
-        margin: 0 -10px 25px -10px;
-        width: calc(100% + 20px);
-        left: -10px;
+        padding: 10px 15px 10px 15px;
     }
     
     #collectible .gift-item {
         width: 70px;
         height: 70px;
+    }
+}
+
+@media (max-width: 360px) {
+    #collectible.gift-showcase {
+        grid-template-columns: repeat(5, 65px);
+        gap: 5px;
+        padding: 10px 10px 10px 10px;
+    }
+    
+    #collectible .gift-item {
+        width: 65px;
+        height: 65px;
     }
 }
 
@@ -1929,6 +1944,7 @@
     </script>
 </body>
 </html>
+
 
 
 
