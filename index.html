@@ -848,25 +848,62 @@
         font-size: 20px;
     }
 
-    /* Улучшенная прокрутка для коллекционных на мобильных */
+   /* Улучшенная прокрутка для коллекционных на мобильных */
+#collectible.gift-showcase {
+    display: none;
+    grid-template-columns: repeat(5, 80px);
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 20px;
+    margin: 0 -20px 25px -20px;
+    -webkit-overflow-scrolling: touch;
+    width: calc(100% + 40px);
+    position: relative;
+    left: -20px;
+    justify-content: flex-start;
+}
+
+#collectible.gift-showcase.active {
+    display: grid;
+}
+
+#collectible .gift-item {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
     #collectible.gift-showcase {
-        grid-template-columns: repeat(5, 80px);
-        gap: 8px;
-        overflow-x: auto;
-        padding: 10px 20px;
+        grid-template-columns: repeat(5, 70px);
+        gap: 6px;
+        padding: 10px 15px;
         margin: 0 -15px 25px -15px;
-        -webkit-overflow-scrolling: touch;
         width: calc(100% + 30px);
-        position: relative;
         left: -15px;
     }
     
     #collectible .gift-item {
-        width: 80px;
-        height: 80px;
-        flex-shrink: 0;
+        width: 70px;
+        height: 70px;
     }
+}
 
+@media (max-width: 360px) {
+    #collectible.gift-showcase {
+        grid-template-columns: repeat(5, 65px);
+        gap: 5px;
+        padding: 10px 10px;
+        margin: 0 -10px 25px -10px;
+        width: calc(100% + 20px);
+        left: -10px;
+    }
+    
+    #collectible .gift-item {
+        width: 65px;
+        height: 65px;
+    }
+}
     /* Улучшенные обычные категории */
     .gift-showcase:not(#collectible) {
         grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
@@ -1851,4 +1888,5 @@
     </script>
 </body>
 </html>
+
 
