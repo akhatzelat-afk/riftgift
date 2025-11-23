@@ -854,13 +854,39 @@
     grid-template-columns: repeat(5, 80px);
     gap: 8px;
     overflow-x: auto;
-    padding: 10px 20px;
+    padding: 10px 15px; /* Симметричные отступы */
     margin: 0 -15px 25px -15px;
     -webkit-overflow-scrolling: touch;
     width: calc(100% + 30px);
     position: relative;
     left: -15px;
-    justify-content: flex-start;
+}
+
+/* ДОБАВИТЬ этот блок для симметрии */
+.container {
+    overflow: hidden;
+}
+
+#collectible .gift-item {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    #collectible.gift-showcase {
+        grid-template-columns: repeat(5, 70px);
+        gap: 6px;
+        padding: 10px 10px; /* Симметричные отступы */
+        margin: 0 -10px 25px -10px;
+        width: calc(100% + 20px);
+        left: -10px;
+    }
+    
+    #collectible .gift-item {
+        width: 70px;
+        height: 70px;
+    }
 }
 
 /* Добавляем псевдо-элемент для симметричного отступа справа */
@@ -1903,6 +1929,7 @@
     </script>
 </body>
 </html>
+
 
 
 
