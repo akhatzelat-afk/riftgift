@@ -855,12 +855,19 @@
     gap: 8px;
     overflow-x: auto;
     padding: 10px 20px;
-    margin: 0 -20px 25px -20px;
+    margin: 0 -15px 25px -15px;
     -webkit-overflow-scrolling: touch;
-    width: calc(100% + 40px);
+    width: calc(100% + 30px);
     position: relative;
-    left: -20px;
+    left: -15px;
     justify-content: flex-start;
+}
+
+/* Добавляем псевдо-элемент для симметричного отступа справа */
+#collectible.gift-showcase::after {
+    content: '';
+    width: 15px;
+    flex-shrink: 0;
 }
 
 #collectible.gift-showcase.active {
@@ -878,9 +885,13 @@
         grid-template-columns: repeat(5, 70px);
         gap: 6px;
         padding: 10px 15px;
-        margin: 0 -15px 25px -15px;
-        width: calc(100% + 30px);
-        left: -15px;
+        margin: 0 -10px 25px -10px;
+        width: calc(100% + 20px);
+        left: -10px;
+    }
+    
+    #collectible.gift-showcase::after {
+        width: 10px;
     }
     
     #collectible .gift-item {
@@ -894,9 +905,13 @@
         grid-template-columns: repeat(5, 65px);
         gap: 5px;
         padding: 10px 10px;
-        margin: 0 -10px 25px -10px;
-        width: calc(100% + 20px);
-        left: -10px;
+        margin: 0 -5px 25px -5px;
+        width: calc(100% + 10px);
+        left: -5px;
+    }
+    
+    #collectible.gift-showcase::after {
+        width: 5px;
     }
     
     #collectible .gift-item {
@@ -1888,5 +1903,6 @@
     </script>
 </body>
 </html>
+
 
 
