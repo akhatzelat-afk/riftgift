@@ -799,204 +799,204 @@
         .gold .gift-info { color: #ffd700; }
         .diamond .gift-info { color: #b9f2ff; }
 
-        /* Улучшенные модальные окна для мобильных */
-        @media (max-width: 768px) {
-            .rules-modal {
-                padding: 10px;
-                align-items: flex-start;
-            }
+       /* Улучшенные модальные окна для мобильных */
+@media (max-width: 768px) {
+    .rules-modal {
+        padding: 10px;
+        align-items: flex-start;
+    }
 
-            .rules-content {
-                max-width: 100%;
-                max-height: 90vh;
-                margin: 20px 10px;
-                padding: 20px 15px;
-            }
+    .rules-content {
+        max-width: 100%;
+        max-height: 90vh;
+        margin: 20px 10px;
+        padding: 20px 15px;
+    }
 
-            .rules-title {
-                font-size: 1.3em;
-                margin-bottom: 15px;
-                padding-right: 25px;
-            }
+    .rules-title {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+        padding-right: 25px;
+    }
 
-            .rules-section {
-                padding: 12px;
-                margin-bottom: 15px;
-            }
+    .rules-section {
+        padding: 12px;
+        margin-bottom: 15px;
+    }
 
-            .rules-subtitle {
-                font-size: 0.95em;
-            }
+    .rules-subtitle {
+        font-size: 0.95em;
+    }
 
-            .rules-list {
-                padding-left: 15px;
-            }
+    .rules-list {
+        padding-left: 15px;
+    }
 
-            .rules-list li {
-                font-size: 0.9em;
-                margin-bottom: 6px;
-            }
+    .rules-list li {
+        font-size: 0.9em;
+        margin-bottom: 6px;
+    }
 
-            .rules-note {
-                padding: 8px;
-                font-size: 0.85em;
-            }
+    .rules-note {
+        padding: 8px;
+        font-size: 0.85em;
+    }
 
-            .close-rules {
-                top: 10px;
-                right: 15px;
-                font-size: 20px;
-            }
+    .close-rules {
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+    }
 
-            /* Улучшенная прокрутка для коллекционных на мобильных */
-            #collectible.gift-showcase {
-                grid-template-columns: repeat(5, 80px);
-                gap: 8px;
-                overflow-x: auto;
-                padding: 10px 20px;
-                margin: 0 -15px 25px -15px;
-                -webkit-overflow-scrolling: touch;
-                width: calc(100% + 30px);
-                position: relative;
-                left: -15px;
-            }
-            
-            #collectible .gift-item {
-                width: 80px;
-                height: 80px;
-            }
+    /* Улучшенная прокрутка для коллекционных на мобильных */
+    #collectible.gift-showcase {
+        grid-template-columns: repeat(5, 80px);
+        gap: 8px;
+        overflow-x: auto;
+        padding: 10px 20px;
+        margin: 0 -15px 25px -15px;
+        -webkit-overflow-scrolling: touch;
+        width: calc(100% + 30px);
+        position: relative;
+        left: -15px;
+    }
+    
+    #collectible .gift-item {
+        width: 80px;
+        height: 80px;
+        flex-shrink: 0;
+    }
 
-            .form-container {
-                padding: 15px;
-            }
+    /* Улучшенные обычные категории */
+    .gift-showcase:not(#collectible) {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 10px;
+        justify-items: center;
+    }
+    
+    .gift-showcase:not(#collectible) .gift-item {
+        width: 90px;
+        height: 90px;
+        margin: 0;
+    }
 
-            .code-output {
-                padding: 12px;
-            }
+    .form-container {
+        padding: 15px;
+    }
 
-            .code-content {
-                padding: 12px;
-                font-size: 12px;
-            }
-        }
+    .code-output {
+        padding: 12px;
+    }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 12px;
-                border-radius: 12px;
-            }
-            
-            .categories {
-                gap: 4px;
-            }
-            
-            .category-btn {
-                padding: 5px 10px;
-                font-size: 11px;
-                min-width: 90px;
-                max-width: 110px;
-            }
-            
-            #collectible.gift-showcase {
-                grid-template-columns: repeat(5, 70px);
-                gap: 6px;
-                padding: 10px 15px;
-                margin: 0 -10px 25px -10px;
-                width: calc(100% + 20px);
-                left: -10px;
-            }
-            
-            #collectible .gift-item {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .gift-showcase:not(#collectible) {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-                gap: 6px;
-            }
-            
-            .form-input {
-                padding: 10px;
-                font-size: 14px;
-            }
-            
-            .preview-image {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .theme-toggle {
-                gap: 5px;
-            }
-            
-            .theme-btn {
-                padding: 8px 15px;
-                font-size: 12px;
-            }
+    .code-content {
+        padding: 12px;
+        font-size: 12px;
+    }
+}
 
-            .rules-content {
-                padding: 15px 12px;
-                margin: 10px 5px;
-            }
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 12px;
+        border-radius: 12px;
+    }
+    
+    .categories {
+        gap: 4px;
+    }
+    
+    .category-btn {
+        padding: 5px 10px;
+        font-size: 11px;
+        min-width: 90px;
+        max-width: 110px;
+    }
+    
+    /* Улучшенные коллекционные на маленьких экранах */
+    #collectible.gift-showcase {
+        grid-template-columns: repeat(5, 70px);
+        gap: 6px;
+        padding: 10px 15px;
+        margin: 0 -10px 25px -10px;
+        width: calc(100% + 20px);
+        left: -10px;
+    }
+    
+    #collectible .gift-item {
+        width: 70px;
+        height: 70px;
+    }
+    
+    /* Улучшенные обычные категории */
+    .gift-showcase:not(#collectible) {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 8px;
+    }
+    
+    .gift-showcase:not(#collectible) .gift-item {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .form-input {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .preview-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .theme-toggle {
+        gap: 5px;
+    }
+    
+    .theme-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
 
-            .rules-title {
-                font-size: 1.2em;
-            }
-        }
+    .rules-content {
+        padding: 15px 12px;
+        margin: 10px 5px;
+    }
 
-        @media (max-width: 360px) {
-            #collectible.gift-showcase {
-                grid-template-columns: repeat(5, 65px);
-                gap: 5px;
-            }
-            
-            #collectible .gift-item {
-                width: 65px;
-                height: 65px;
-            }
-            
-            .gift-showcase:not(#collectible) {
-                grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-                gap: 5px;
-            }
-        }
+    .rules-title {
+        font-size: 1.2em;
+    }
+}
 
-        /* Для touch-устройств */
-        @media (hover: none) {
-            .gift-item:hover {
-                transform: none;
-            }
-            
-            .gift-item:active {
-                transform: scale(0.95);
-            }
-            
-            .category-btn:hover, .subcategory-btn:hover {
-                transform: none;
-            }
-            
-            .category-btn:active, .subcategory-btn:active {
-                transform: scale(0.95);
-            }
-            
-            .copy-btn:hover {
-                transform: none;
-                box-shadow: none;
-            }
-            
-            .copy-btn:active {
-                transform: scale(0.98);
-            }
-            
-            .gift-info:hover {
-                transform: none;
-            }
-        }
+@media (max-width: 360px) {
+    /* Улучшенные коллекционные на самых маленьких экранах */
+    #collectible.gift-showcase {
+        grid-template-columns: repeat(5, 65px);
+        gap: 5px;
+        padding: 10px 10px;
+        margin: 0 -5px 25px -5px;
+        width: calc(100% + 10px);
+        left: -5px;
+    }
+    
+    #collectible .gift-item {
+        width: 65px;
+        height: 65px;
+    }
+    
+    /* Улучшенные обычные категории */
+    .gift-showcase:not(#collectible) {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 6px;
+    }
+    
+    .gift-showcase:not(#collectible) .gift-item {
+        width: 70px;
+        height: 70px;
+    }
+}
     </style>
 </head>
 <body class="theme-2">
@@ -1851,3 +1851,4 @@
     </script>
 </body>
 </html>
+
