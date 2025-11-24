@@ -851,66 +851,83 @@
 /* Улучшенная прокрутка для коллекционных на мобильных */
 #collectible.gift-showcase {
     display: none;
-    grid-template-columns: repeat(5, 80px);
+    grid-template-columns: 20px repeat(5, 80px) 20px;
+    grid-template-rows: repeat(5, 80px);
     gap: 8px;
     overflow-x: auto;
-    padding: 10px 20px;
+    padding: 10px 0;
     margin: 0 0 25px 0;
     -webkit-overflow-scrolling: touch;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-}
-
-/* Создаем контейнер для центрирования */
-#collectible.gift-showcase::before {
-    content: '';
-    min-width: calc(50% - 200px);
-    order: -1;
-}
-
-#collectible.gift-showcase::after {
-    content: '';
-    min-width: calc(50% - 200px);
-    order: 999;
+    justify-content: center;
 }
 
 #collectible.gift-showcase.active {
-    display: flex; /* Меняем на flex для псевдо-элементов */
-    flex-wrap: nowrap;
-    justify-content: center;
+    display: grid;
 }
 
 #collectible .gift-item {
     width: 80px;
     height: 80px;
     flex-shrink: 0;
-    margin: 0 4px;
 }
 
+/* Распределяем все 25 алмазов по 5 строкам */
+#collectible .gift-item:nth-child(1) { grid-column: 2; grid-row: 1; }
+#collectible .gift-item:nth-child(2) { grid-column: 3; grid-row: 1; }
+#collectible .gift-item:nth-child(3) { grid-column: 4; grid-row: 1; }
+#collectible .gift-item:nth-child(4) { grid-column: 5; grid-row: 1; }
+#collectible .gift-item:nth-child(5) { grid-column: 6; grid-row: 1; }
+
+#collectible .gift-item:nth-child(6) { grid-column: 2; grid-row: 2; }
+#collectible .gift-item:nth-child(7) { grid-column: 3; grid-row: 2; }
+#collectible .gift-item:nth-child(8) { grid-column: 4; grid-row: 2; }
+#collectible .gift-item:nth-child(9) { grid-column: 5; grid-row: 2; }
+#collectible .gift-item:nth-child(10) { grid-column: 6; grid-row: 2; }
+
+#collectible .gift-item:nth-child(11) { grid-column: 2; grid-row: 3; }
+#collectible .gift-item:nth-child(12) { grid-column: 3; grid-row: 3; }
+#collectible .gift-item:nth-child(13) { grid-column: 4; grid-row: 3; }
+#collectible .gift-item:nth-child(14) { grid-column: 5; grid-row: 3; }
+#collectible .gift-item:nth-child(15) { grid-column: 6; grid-row: 3; }
+
+#collectible .gift-item:nth-child(16) { grid-column: 2; grid-row: 4; }
+#collectible .gift-item:nth-child(17) { grid-column: 3; grid-row: 4; }
+#collectible .gift-item:nth-child(18) { grid-column: 4; grid-row: 4; }
+#collectible .gift-item:nth-child(19) { grid-column: 5; grid-row: 4; }
+#collectible .gift-item:nth-child(20) { grid-column: 6; grid-row: 4; }
+
+#collectible .gift-item:nth-child(21) { grid-column: 2; grid-row: 5; }
+#collectible .gift-item:nth-child(22) { grid-column: 3; grid-row: 5; }
+#collectible .gift-item:nth-child(23) { grid-column: 4; grid-row: 5; }
+#collectible .gift-item:nth-child(24) { grid-column: 5; grid-row: 5; }
+#collectible .gift-item:nth-child(25) { grid-column: 6; grid-row: 5; }
+
 @media (max-width: 480px) {
-    #collectible.gift-showcase::before,
-    #collectible.gift-showcase::after {
-        min-width: calc(50% - 175px);
+    #collectible.gift-showcase {
+        grid-template-columns: 15px repeat(5, 70px) 15px;
+        grid-template-rows: repeat(5, 70px);
+        gap: 6px;
     }
     
     #collectible .gift-item {
         width: 70px;
         height: 70px;
-        margin: 0 3px;
     }
 }
 
 @media (max-width: 360px) {
-    #collectible.gift-showcase::before,
-    #collectible.gift-showcase::after {
-        min-width: calc(50% - 162.5px);
+    #collectible.gift-showcase {
+        grid-template-columns: 10px repeat(5, 65px) 10px;
+        grid-template-rows: repeat(5, 65px);
+        gap: 5px;
     }
     
     #collectible .gift-item {
         width: 65px;
         height: 65px;
-        margin: 0 2.5px;
     }
 }
     /* Улучшенные обычные категории */
@@ -1897,6 +1914,7 @@
     </script>
 </body>
 </html>
+
 
 
 
