@@ -854,56 +854,63 @@
     grid-template-columns: repeat(5, 80px);
     gap: 8px;
     overflow-x: auto;
-    padding: 10px calc(50% - 200px); /* Центрирование */
-    margin: 0 -15px 25px -15px;
+    padding: 10px 20px;
+    margin: 0 0 25px 0;
     -webkit-overflow-scrolling: touch;
-    width: calc(100% + 30px);
-    position: relative;
-    left: -15px;
-    scroll-padding: 0 15px; /* Отступы для скролла */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Создаем контейнер для центрирования */
+#collectible.gift-showcase::before {
+    content: '';
+    min-width: calc(50% - 200px);
+    order: -1;
+}
+
+#collectible.gift-showcase::after {
+    content: '';
+    min-width: calc(50% - 200px);
+    order: 999;
 }
 
 #collectible.gift-showcase.active {
-    display: grid;
+    display: flex; /* Меняем на flex для псевдо-элементов */
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 
 #collectible .gift-item {
     width: 80px;
     height: 80px;
     flex-shrink: 0;
+    margin: 0 4px;
 }
 
 @media (max-width: 480px) {
-    #collectible.gift-showcase {
-        grid-template-columns: repeat(5, 70px);
-        gap: 6px;
-        padding: 10px calc(50% - 175px); /* Центрирование для 70px */
-        margin: 0 -10px 25px -10px;
-        width: calc(100% + 20px);
-        left: -10px;
-        scroll-padding: 0 10px;
+    #collectible.gift-showcase::before,
+    #collectible.gift-showcase::after {
+        min-width: calc(50% - 175px);
     }
     
     #collectible .gift-item {
         width: 70px;
         height: 70px;
+        margin: 0 3px;
     }
 }
 
 @media (max-width: 360px) {
-    #collectible.gift-showcase {
-        grid-template-columns: repeat(5, 65px);
-        gap: 5px;
-        padding: 10px calc(50% - 162.5px); /* Центрирование для 65px */
-        margin: 0 -5px 25px -5px;
-        width: calc(100% + 10px);
-        left: -5px;
-        scroll-padding: 0 5px;
+    #collectible.gift-showcase::before,
+    #collectible.gift-showcase::after {
+        min-width: calc(50% - 162.5px);
     }
     
     #collectible .gift-item {
         width: 65px;
         height: 65px;
+        margin: 0 2.5px;
     }
 }
     /* Улучшенные обычные категории */
@@ -1890,6 +1897,7 @@
     </script>
 </body>
 </html>
+
 
 
 
