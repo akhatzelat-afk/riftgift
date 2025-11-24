@@ -261,19 +261,38 @@
             border: 1px dashed #7aa2b8;
         }
         
-        /* Витрина подарков */
-        .gift-showcase {
-            display: none;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
+       /* ФИКСИРОВАННАЯ ВЫСОТА ДЛЯ ВСЕХ ВКЛАДОК */
+.gift-showcase {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+    height: 1300px; /* ФИКСИРОВАННАЯ ВЫСОТА */
+    overflow-y: auto;
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 10px;
+}
 
-        .gift-showcase.active {
-            display: grid;
-        }
+.theme-1 .gift-showcase {
+    border-color: #d4a574;
+    background: rgba(215, 213, 197, 0.3);
+}
 
+.theme-2 .gift-showcase {
+    border-color: #8a6b4e;
+    background: rgba(220, 210, 187, 0.3);
+}
+
+.theme-3 .gift-showcase {
+    border-color: #7aa2b8;
+    background: rgba(232, 244, 248, 0.3);
+}
+
+.gift-showcase.active {
+    display: grid;
+}
         /* Сезонные подкатегории */
         .seasonal-showcase {
             display: none;
@@ -283,18 +302,45 @@
             display: grid;
         }
 
-        /* КОЛЛЕКЦИОННЫЕ - 5 в ряд всегда с фиксированными размерами */
-        #collectible.gift-showcase {
-            display: none;
-            grid-template-columns: repeat(5, 100px);
-            gap: 10px;
-            justify-content: center;
-            width: 100%;
-        }
+       /* Коллекционные - горизонтальная прокрутка */
+#collectible.gift-showcase {
+    grid-template-columns: repeat(5, 100px);
+    grid-template-rows: repeat(5, 100px);
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 600px; /* 5 строк × 100px + отступы */
+    padding: 10px 20px;
+}
 
-        #collectible.gift-showcase.active {
-            display: grid;
-        }
+/* Ограничиваем общую высоту контейнера */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.5s ease;
+    height: 1500px; /* ФИКСИРОВАННАЯ ОБЩАЯ ВЫСОТА */
+    overflow: hidden;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .gift-showcase {
+        height: 1100px;
+    }
+    
+    #collectible.gift-showcase {
+        height: 500px;
+        grid-template-columns: repeat(5, 80px);
+        grid-template-rows: repeat(5, 80px);
+    }
+    
+    .container {
+        height: 1400px;
+    }
+}
 
         /* Фиксированные размеры для всех подарков */
         .gift-item {
@@ -1914,6 +1960,7 @@
     </script>
 </body>
 </html>
+
 
 
 
