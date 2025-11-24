@@ -848,27 +848,19 @@
         font-size: 20px;
     }
 
- /* Улучшенная прокрутка для коллекционных на мобильных */
+/* Улучшенная прокрутка для коллекционных на мобильных */
 #collectible.gift-showcase {
     display: none;
     grid-template-columns: repeat(5, 80px);
     gap: 8px;
     overflow-x: auto;
-    padding: 10px 20px;
+    padding: 10px calc(50% - 200px); /* Центрирование */
     margin: 0 -15px 25px -15px;
     -webkit-overflow-scrolling: touch;
     width: calc(100% + 30px);
     position: relative;
     left: -15px;
-}
-
-/* Добавляем невидимый элемент в начало для отступа слева при прокрутке */
-#collectible.gift-showcase::before {
-    content: '';
-    width: 15px;
-    flex-shrink: 0;
-    grid-column: 1;
-    grid-row: 1;
+    scroll-padding: 0 15px; /* Отступы для скролла */
 }
 
 #collectible.gift-showcase.active {
@@ -885,14 +877,11 @@
     #collectible.gift-showcase {
         grid-template-columns: repeat(5, 70px);
         gap: 6px;
-        padding: 10px 15px;
+        padding: 10px calc(50% - 175px); /* Центрирование для 70px */
         margin: 0 -10px 25px -10px;
         width: calc(100% + 20px);
         left: -10px;
-    }
-    
-    #collectible.gift-showcase::before {
-        width: 10px;
+        scroll-padding: 0 10px;
     }
     
     #collectible .gift-item {
@@ -905,14 +894,11 @@
     #collectible.gift-showcase {
         grid-template-columns: repeat(5, 65px);
         gap: 5px;
-        padding: 10px 10px;
+        padding: 10px calc(50% - 162.5px); /* Центрирование для 65px */
         margin: 0 -5px 25px -5px;
         width: calc(100% + 10px);
         left: -5px;
-    }
-    
-    #collectible.gift-showcase::before {
-        width: 5px;
+        scroll-padding: 0 5px;
     }
     
     #collectible .gift-item {
@@ -1904,6 +1890,7 @@
     </script>
 </body>
 </html>
+
 
 
 
